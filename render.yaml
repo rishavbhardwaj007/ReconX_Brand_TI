@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: reconx-brand-intel
+    name: ReconX_Brand_TI
     env: python
     buildCommand: pip install -r requirements.txt
     startCommand: python app.py
