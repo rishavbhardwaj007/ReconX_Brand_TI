@@ -11,7 +11,7 @@ def search_github_leaks(brand):
     }
 
     query = f'"{brand}" in:file'
-    url = f"https://api.github.com/search/code?q={query}&per_page=5"
+    url = f"https://api.github.com/search/code?q={query}&per_page=30"
 
     response = requests.get(url, headers=headers)
     if response.status_code != 200:
