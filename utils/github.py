@@ -15,15 +15,17 @@ def search_github_leaks(brand):
 
     response = requests.get(url, headers=headers)
     if response.status_code != 200:
-        return [f"GitHub API error: {response.status_code} - {response.text}"]
+        return []
 
     data = response.json()
     results = []
 
     for item in data.get("items", []):
-        repo = item["repository"]["full_name"]
-        file_path = item["path"]
-        html_url = item["html_url"]
-        results.append(f"Repo: {repo}, File: {file_path}, Link: {html_url}")
+        results.append({
+            "repo": item["repository"]["full_name"],
+            "path": item["path"],
+            "url": item["html_url"]
+        })
 
-    return results or ["No results found."]
+    return results
+
