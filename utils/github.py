@@ -1,37 +1,44 @@
-import requests
+# utils/github.py
+
 import os
+import requests
 
 def search_github_leaks(brand):
     token = os.getenv("GITHUB_TOKEN")
+
     if not token:
-        print("❌ GITHUB_TOKEN is missing")
+        print("❌ Missing GITHUB_TOKEN")
         return []
 
     headers = {
-        "Authorization": f"token {token}",
-        "Accept": "application/vnd.github.v3.text-match+json"
+        "Authorization": f"Bearer {token}",
+        "Accept": "application/vnd.github+json"
     }
 
     query = f'"{brand}" in:file'
-    url = f"https://api.github.com/search/code?q={query}&per_page=10"
+    url = f"https://api.github.com/search/code?q={query}&per_page=5"
 
-    print(f"🔍 GitHub Search URL: {url}")
+    print(f"🔍 Querying GitHub: {url}")
     response = requests.get(url, headers=headers)
-    print(f"📡 GitHub status: {response.status_code}")
+
+    print("📡 GitHub Status Code:", response.status_code)
 
     if response.status_code != 200:
-        print("⚠️ GitHub error:", response.text)
+        print("⚠️ GitHub Response:", response.text)
         return []
 
-    data = response.json()
     results = []
+    data = response.json()
 
     for item in data.get("items", []):
-        print("✅ Found:", item["html_url"])
+        repo_name = item.get("repository", {}).get("full_name", "")
+        file_path = item.get("path", "")
+        file_url = item.get("html_url", "")
         results.append({
-            "repo": item["repository"]["full_name"],
-            "path": item["path"],
-            "url": item["html_url"]
+            "repo": repo_name,
+            "path": file_path,
+            "url": file_url
         })
+        print(f"✅ Leak found: {repo_name}/{file_path}")
 
     return results
