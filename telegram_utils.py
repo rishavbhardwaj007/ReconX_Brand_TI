@@ -1,5 +1,3 @@
-# utils/telegram.py
-
 import os
 import requests
 
