@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request
 from utils.github import search_github_leaks
-from telegram_utils import send_telegram_alert
+from utils.telegram_utils import send_telegram_alert
 from dotenv import load_dotenv
 load_dotenv()
 
