@@ -20,7 +20,7 @@ def index():
         brand = request.form.get("brand")
         if brand:
             github_results = search_github_leaks(brand)
-            telegram_results = search_telegram(brand)
+            telegram_results = ""
             darkweb_results = search_darkweb(brand)
             shodan_results = shodan_search(brand)
 
