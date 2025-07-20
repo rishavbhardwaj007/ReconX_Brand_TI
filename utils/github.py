@@ -1,10 +1,12 @@
-# utils/github.py
-
 import requests
 import os
 
 def search_github_leaks(brand):
     token = os.getenv("GITHUB_TOKEN")
+    if not token:
+        print("❌ GITHUB_TOKEN not found in environment!")
+        return []
+
     headers = {
         "Authorization": f"token {token}",
         "Accept": "application/vnd.github.v3.text-match+json"
@@ -12,9 +14,13 @@ def search_github_leaks(brand):
 
     query = f'"{brand}" in:file'
     url = f"https://api.github.com/search/code?q={query}&per_page=30"
+    print(f"📡 Searching GitHub for: {brand}")
 
     response = requests.get(url, headers=headers)
+    print(f"🔄 GitHub API status: {response.status_code}")
+
     if response.status_code != 200:
+        print(f"⚠️ GitHub error: {response.text}")
         return []
 
     data = response.json()
@@ -27,5 +33,5 @@ def search_github_leaks(brand):
             "url": item["html_url"]
         })
 
+    print(f"✅ GitHub results found: {len(results)}")
     return results
-
