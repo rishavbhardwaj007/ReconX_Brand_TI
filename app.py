@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request
 from dotenv import load_dotenv
 from utils.github import search_github_leaks
-from utils.telegram_utils import send_telegram_alert, search_telegram
+from utils.telegram_utils import send_telegram_alert
 from utils.darkweb import search_darkweb
 from utils.enrich import shodan_search
 
