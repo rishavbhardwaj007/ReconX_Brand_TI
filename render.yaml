@@ -13,4 +13,4 @@ services:
       - key: GITHUB_TOKEN
         sync: false
       - key: SHODAN_API_KEY
-        sync: false
+        sync: true
