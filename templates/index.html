@@ -1,40 +1,87 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <title>ReconX - Brand Threat Intel</title>
-  <style>
-    body { font-family: Arial, sans-serif; background-color: #0f1117; color: #fff; padding: 40px; }
-    h1 { color: #00ffe1; }
-    form input[type="text"] { width: 300px; padding: 10px; }
-    form button { padding: 10px 20px; margin-left: 10px; background-color: #00ffe1; border: none; cursor: pointer; }
-    .result-box { margin-top: 30px; }
-    .result-item { background: #1c1e24; padding: 15px; margin-bottom: 10px; border-left: 5px solid #00ffe1; }
-    a { color: #00ffe1; text-decoration: none; }
-  </style>
+    <title>ReconX Brand Leak Scanner</title>
+    <style>
+        body {
+            background-color: #0d0d0d;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+        }
+        h1 {
+            color: #00ffd0;
+        }
+        input[type="text"] {
+            padding: 10px;
+            width: 300px;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #00ffd0;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .section {
+            margin-top: 40px;
+            text-align: left;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .section h2 {
+            color: #00ffd0;
+            border-bottom: 1px solid #333;
+            padding-bottom: 5px;
+        }
+        .result-item {
+            padding: 8px;
+            border-bottom: 1px solid #222;
+        }
+        a {
+            color: #00ccff;
+            text-decoration: none;
+        }
+    </style>
 </head>
 <body>
-  <h1>🔍 ReconX Brand Leak Scanner</h1>
-  <form method="POST">
-    <input type="text" name="brand" placeholder="Enter brand name..." required />
-    <button type="submit">Scan</button>
-  </form>
+    <h1>🔍 ReconX Brand Leak Scanner</h1>
+    <form method="POST">
+        <input type="text" name="brand" placeholder="Enter brand name..." required>
+        <button type="submit">Scan</button>
+    </form>
 
-  {% if brand %}
-    <div class="result-box">
-      <h2>Results for: {{ brand }}</h2>
-      {% if results %}
-        {% for item in results %}
-          <div class="result-item">
-            <strong>{{ item.repo }}</strong><br/>
-            File: {{ item.path }}<br/>
-            <a href="{{ item.url }}" target="_blank">View Leak</a>
-          </div>
-        {% endfor %}
-      {% else %}
-        <p>No leaks found on GitHub.</p>
-      {% endif %}
-    </div>
-  {% endif %}
-</body>
-</html>
+    {% if brand %}
+        <div class="section">
+            <h2>Results for: {{ brand }}</h2>
+
+            <div class="section">
+                <h3>GitHub Leaks</h3>
+                {% if github_results %}
+                    {% for result in github_results %}
+                        <div class="result-item">
+                            🔓 <b>Repo:</b> {{ result.repo }}<br>
+                            📁 <b>File:</b> {{ result.path }}<br>
+                            🔗 <a href="{{ result.url }}" target="_blank">View Leak</a>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p>No leaks found on GitHub.</p>
+                {% endif %}
+            </div>
+
+            <div class="section">
+                <h3>Shodan Exposure</h3>
+                {% if shodan_results %}
+                    <pre>{{ shodan_results | safe }}</pre>
+                {% else %}
+                    <p>No Shodan data found.</p>
+                {% endif %}
+            </div>
+
+            <div class="section">
+                <h3>Dark Web Mentions</h3>
+                {% if dar
