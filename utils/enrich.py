@@ -5,6 +5,7 @@ import requests
 
 def shodan_search(brand):
     api_key = os.getenv("SHODAN_API_KEY")
+    print(f"🔑 SHODAN_API_KEY loaded as: {api_key}")
     if not api_key:
         return "Shodan API key not set."
 
