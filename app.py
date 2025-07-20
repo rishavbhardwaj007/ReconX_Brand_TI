@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request
 from dotenv import load_dotenv
 from utils.github import search_github_leaks
-from utils.telegram_utils import send_telegram_alert
+from utils.telegram_utils import send_telegram_alert, search_telegram
 from utils.darkweb import search_darkweb
 from utils.enrich import shodan_search
 
@@ -20,14 +20,13 @@ def index():
         brand = request.form.get("brand")
         if brand:
             github_results = search_github_leaks(brand)
-            telegram_results = ""
+            telegram_results = search_telegram(brand)
             darkweb_results = search_darkweb(brand)
             shodan_results = shodan_search(brand)
 
-            # Send alerts for GitHub leaks only (or extend to others)
             if github_results:
                 for item in github_results:
-                    msg = f"🚨 *Leak Found for {brand}*\n*Repo:* {item['repo']}\n*File:* {item['path']}\n[View Leak]({item['url']})"
+                    msg = f"\ud83d\udea8 *Leak Found for {brand}*\n*Repo:* {item['repo']}\n*File:* {item['path']}\n[View Leak]({item['url']})"
                     send_telegram_alert(msg)
 
     return render_template(
