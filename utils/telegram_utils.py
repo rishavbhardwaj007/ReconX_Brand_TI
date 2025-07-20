@@ -1,4 +1,4 @@
-# utils/telegram.py
+# utils/telegram_utils.py
 
 import os
 import requests
